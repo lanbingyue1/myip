@@ -68,7 +68,7 @@ myip -h
 | `-6`, `--ipv6` | Only display IPv6 addresses |
 | `-a`, `--all` | Display all IP addresses (both IPv4 and IPv6) |
 | `-h`, `--help` | Print help information |
-| `-V`, `--version` | Print version information |
+| `-v`, `--version` | Print version information |
 
 ## Output Example
 

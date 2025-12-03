@@ -6,7 +6,7 @@ use std::net::{IpAddr, UdpSocket};
 
 /// A simple tool to display local IP addresses
 #[derive(Parser, Debug)]
-#[command(author, version, about, long_about = None)]
+#[command(author, about, long_about = None)]
 struct Args {
     /// Only display IPv6 addresses
     #[arg(short = '6', long)]
@@ -15,11 +15,25 @@ struct Args {
     /// Display all IP addresses (both IPv4 and IPv6)
     #[arg(short = 'a', long)]
     all: bool,
+    
+    /// Print version information
+    #[arg(short = 'v', long = "version")]
+    version: bool,
 }
 
 fn main() {
     // Parse command line arguments
     let args = Args::parse();
+    
+    // Check if version information is requested
+    if args.version {
+        if let Some(version) = get_version_from_cargo_toml() {
+            println!("myip v{}", version);
+        } else {
+            println!("Failed to determine version");
+        }
+        return;
+    }
     
     // Get main IP address (the one used for internet connection)
     let main_ip = get_main_ip();
@@ -100,4 +114,29 @@ fn get_main_ip() -> Option<IpAddr> {
     
     // Get local IP address from the connected socket
     socket.local_addr().ok().map(|addr| addr.ip())
+}
+
+/// Get version information from Cargo.toml
+fn get_version_from_cargo_toml() -> Option<String> {
+    use std::fs::File;
+    use std::io::Read;
+    use std::path::Path;
+    
+    // Read Cargo.toml file
+    let cargo_toml_path = Path::new(env!("CARGO_MANIFEST_DIR")).join("Cargo.toml");
+    let mut file = File::open(cargo_toml_path).ok()?;
+    let mut content = String::new();
+    file.read_to_string(&mut content).ok()?;
+    
+    // Parse version field
+    for line in content.lines() {
+        if line.trim().starts_with("version = ") {
+            // Extract version string
+            let version_str = line.trim().trim_start_matches("version = ");
+            // Remove quotes
+            return Some(version_str.trim_matches('"').to_string());
+        }
+    }
+    
+    None
 }
