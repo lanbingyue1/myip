@@ -1,0 +1,9 @@
+[package]
+name = "myip"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+getifs = "0.4"
+clap = { version = "^4.0.0", features = ["derive"] }
+colored = "^2.0.0"
