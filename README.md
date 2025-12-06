@@ -3,7 +3,7 @@
 A simple and beautiful command-line tool to display local IP addresses with network interface information.
 
 [English](README.md) | [中文](README_zh.md) | [日本語](README_ja.md)
-
+![GitHub Card](https://githubcard.com/lanbingyue1.svg)
 ## Features
 - Shows main IP address (used for internet connection) highlighted in green
 - Displays IP addresses with their corresponding network interface names
